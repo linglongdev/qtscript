@@ -1,0 +1,20 @@
+Description: fix stack base detection on hppa
+Author: John David Anglin <dave.anglin@bell.net>
+Forwarded: not-yet
+Last-Update: 2018-12-18
+
+--- a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/Collector.cpp
++++ b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/Collector.cpp
+@@ -672,7 +672,12 @@ static inline void* currentThreadStackBa
+         pthread_attr_destroy(&sattr);
+         stackThread = thread;
+     }
++#if defined(__hppa__)
++    // Stack grows up.
++    return static_cast<char*>(stackBase);
++#else
+     return static_cast<char*>(stackBase) + stackSize;
++#endif
+ #else
+ #error Need a way to get the stack base on this platform
+ #endif

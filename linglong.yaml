@@ -1,0 +1,26 @@
+package:
+  id: qtscript
+  kind: lib
+  version: 5.11.3
+
+base:
+  id: org.deepin.base
+  version: 20.5.0
+
+depends:
+- id: qtbase
+  version: 5.11.3.15
+
+source:
+  kind: git
+  url: https://github.com/deepin-community/qtscript-opensource-src.git
+  version: v20/5.11.3
+  commit: cc4325b8c709d0c42d136e1df21a6dc7c13a7cb4
+  patch:
+  - disable_failing_tests.diff
+  - disable_v8_sunspider_tests.patch
+  - s390x_jscore.diff
+  - hppa_stackbase.diff
+  - uos-add-sunway-support.patch
+build:
+  kind: qmake
